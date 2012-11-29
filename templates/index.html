@@ -1,0 +1,41 @@
+$def with (tabel_info)
+
+<html>
+<head>
+<title>correction</title>
+</head>
+<body>
+<form>
+  <fieldset>
+    <legend>correction list tool</legend>
+  </fieldset>
+</form>
+<form name="form1" action="/index" method="get">
+  <p>COLFile: <input type="file" name="colfile" /></p>
+  <p>ProntList: <input type="file" name="prontlist" /></p>
+  <input type="checkbox" name="checkbox1" value="checkbox"> ID
+  <input type="checkbox" name="checkbox2" value="checkbox"> Title  
+  <input type="checkbox" name="checkbox3" value="checkbox"> State
+  <input type="checkbox" name="checkbox4" value="checkbox"> CN<br>
+  <select name="releasea" size = "15" multiple>
+  <option value="relase1">relase1
+  <option value="relase2">relase2
+  <option value="relase3">relase3
+  </select>
+  <input type="button" value="Add" />
+  <input type="button" value="Delete" />
+  <select name="releaseb" size = "15" multiple>
+  <option value="relase4">
+  <option value="relase5">
+  <option value="relase6">
+  </select>  
+   
+  <p>ResultFile: <input type="file" name="colfile" /></p>
+  <input type="button" value="Generate" />
+</form>
+
+</body>
+</html>
+
+
+
