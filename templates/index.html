@@ -1,4 +1,4 @@
-$def with (tabel_info)
+$def with (pronto_list)
 
 <html>
 <head>
@@ -10,28 +10,29 @@ $def with (tabel_info)
     <legend>correction list tool</legend>
   </fieldset>
 </form>
-<form name="form1" action="/index" method="get">
+<form name="form_index" enctype="multipart/form-data" action="" method="POST">
   <p>COLFile: <input type="file" name="colfile" /></p>
   <p>ProntList: <input type="file" name="prontlist" /></p>
+  <input type="submit" /><br>
+</form>
+  
+<form name="form_index2" action="result" method="POST">
   <input type="checkbox" name="checkbox1" value="checkbox"> ID
   <input type="checkbox" name="checkbox2" value="checkbox"> Title  
   <input type="checkbox" name="checkbox3" value="checkbox"> State
   <input type="checkbox" name="checkbox4" value="checkbox"> CN<br>
   <select name="releasea" size = "15" multiple>
-  <option value="relase1">relase1
-  <option value="relase2">relase2
-  <option value="relase3">relase3
+$for element in pronto_list:
+	<option value=$element.id>$element.target</option>
   </select>
   <input type="button" value="Add" />
   <input type="button" value="Delete" />
   <select name="releaseb" size = "15" multiple>
-  <option value="relase4">
-  <option value="relase5">
-  <option value="relase6">
+$for element in pronto_list:
+	<option value=element>
   </select>  
-   
-  <p>ResultFile: <input type="file" name="colfile" /></p>
-  <input type="button" value="Generate" />
+  <p>ResultFile: <input type="file" name="resultfile" /></p>
+  <input type="submit" value="Generate" />
 </form>
 
 </body>
