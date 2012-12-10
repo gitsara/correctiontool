@@ -18,6 +18,13 @@ pronto_list = []
 pac_list = []
 pac_version = []
 
+def checkversions(pac,version,col):
+    if col.__contains__(pac):
+        pass
+    else:
+        print "%s not in col" %(pac) 
+    
+
 class element():
     def __init__(self,id,pronid,title,state,target,cn,modification):
         self.id = id
@@ -76,20 +83,27 @@ class result:
         filename = selectlist["resultfile"]
         checkselected = selectlist["releasea"]
 #       print pac_version
-        f = open(filename,'w+')
+        f = open("D:\\res.txt",'w+')
         print filename
-        for line in targetselected:   
-            modification_list = pronto_list[int(line)].modification              
-            output = "PR" + str(pronto_list[int(line)].id) + pronto_list[int(line)].pronid + pronto_list[int(line)].title + pronto_list[int(line)].modification
+        for line in targetselected:
+            output = " "   
+            modification_list = pronto_list[int(line)].modification
+#            print modification_list
+            if modification_list.__contains__(","):
+                for pac in modification_list.split(","):
+                    output += pac + pronto_list[int(line)].pronid + pronto_list[int(line)].title + "\n"
+            else:                   
+                    output = pronto_list[int(line)].modification + str(pronto_list[int(line)].id) + pronto_list[int(line)].pronid + pronto_list[int(line)].title
             if selectlist.has_key('checkbox4'):
                 output += pronto_list[int(line)].cn
-            print output
+#            print output
             f.write(output)        
+            f.write('\n')
+            f.write('one pac done')
             f.write('\n') 
         f.close()
         
 if __name__ == "__main__":
     app = web.application(urls, globals()) 
     app.run() 
-    
     
