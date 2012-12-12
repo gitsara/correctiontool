@@ -12,36 +12,16 @@ urls = (
     '/result','result'
 )  
 
-
 elements = []
 pronto_list = []
 pac_list = []
-pac_version = []
+col = []
+need_check = []
 
-def checkversions(pac,version,col):
-    if col.__contains__(pac):
-        pass
-    else:
-        print "%s not in col" %(pac) 
-    
-
-class element():
-    def __init__(self,id,pronid,title,state,target,cn,modification):
-        self.id = id
-        self.pronid = pronid
-        self.title = title
-        self.state = state
-        self.target = target
-        self.cn = cn
-        self.modification = modification
- 
 class index:  
   
     def GET(self):
-        tempelement = element('','','','','','','')
-        templist = []
-        templist.append(tempelement)
-        return render.index(templist)  
+        return render.index(())  
       
     def POST(self):
         line = ""
@@ -51,7 +31,7 @@ class index:
         y = web.input(prontlist={})
         reader = y['prontlist'].file.read().strip().split('\r\n')
         reader_col = x['colfile'].file.read()
-        pac_version.append(reader_col)
+        col.append(reader_col)
 #        print pac_version
         
         for line in reader:
@@ -83,25 +63,61 @@ class result:
         filename = selectlist["resultfile"]
         checkselected = selectlist["releasea"]
 #       print pac_version
-        f = open("D:\\res.txt",'w+')
+        f = open(filename,'w+')
         print filename
         for line in targetselected:
             output = " "   
             modification_list = pronto_list[int(line)].modification
-#            print modification_list
-            if modification_list.__contains__(","):
+            print modification_list
+            if modification_list.__contains__(","):                
                 for pac in modification_list.split(","):
-                    output += pac + pronto_list[int(line)].pronid + pronto_list[int(line)].title + "\n"
-            else:                   
-                    output = pronto_list[int(line)].modification + str(pronto_list[int(line)].id) + pronto_list[int(line)].pronid + pronto_list[int(line)].title
+                    if  checkpac(pac,col):                       
+                        output += pac.strip() + " " + pronto_list[int(line)].pronid + " " + pronto_list[int(line)].title                 
+            elif checkpac(modification_list,col):               
+                output = pronto_list[int(line)].modification.lstrip() +" " +  str(pronto_list[int(line)].id) +" " +  pronto_list[int(line)].pronid + " " + pronto_list[int(line)].title 
+                
+                
             if selectlist.has_key('checkbox4'):
-                output += pronto_list[int(line)].cn
-#            print output
+            output += " " + pronto_list[int(line)].cn
             f.write(output)        
             f.write('\n')
-            f.write('one pac done')
-            f.write('\n') 
         f.close()
+        raise web.seeother('/')
+        
+class element():
+    def __init__(self,id,pronid,title,state,target,cn,modification):
+        self.id = id
+        self.pronid = pronid
+        self.title = title
+        self.state = state
+        self.target = target
+        self.cn = cn
+        self.modification = modification
+def checkversion(pacname,pacversion,colfile):
+    for col_line in colfile.split("\n"):
+        if col_line.__contains__(pacname):
+            current_version = col_line.split("!")[3]
+            print current_version
+            return True
+            
+    return False     
+                    
+def checkpac(pac,col):
+    col_file = " "
+    pacname = pac.split(" ")[0][0:8]
+    if pacname.__contains__("CBO") or pacname.__contains__("FlashBoot") or pacname.__contains__("BOP"):
+        return False
+    colfile = col[0]
+    if colfile.__contains__(pacname):
+        pacversion = pac.split(" ")[1]
+        if checkversion(pacname,pacversion,colfile):         
+            return True
+        else:
+            return False
+    else:
+        info = "%s not in col" %(pacname)
+#        need_check.append(info) 
+        return False
         
 if __name__ == "__main__":
     app = web.application(urls, globals()) 
