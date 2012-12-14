@@ -17,20 +17,20 @@ $def with (pronto_list)
 </form>
   
 <form name="form_index2" action="result" method="POST">
-  <input type="checkbox" name="checkbox1" value="checkbox"> ID
+  <!--  input type="checkbox" name="checkbox1" value="checkbox"> ID 
   <input type="checkbox" name="checkbox2" value="checkbox"> Title  
-  <input type="checkbox" name="checkbox3" value="checkbox"> State
+  <input type="checkbox" name="checkbox3" value="checkbox"> State -->
   <input type="checkbox" name="checkbox4" value="checkbox"> CN<br>
   <select name="releasea" size = "15" multiple>
 $for element in pronto_list:
 	<option value=$element.id>$element.target</option>
   </select>
-  <input type="button" value="Add" />
+<!--  <input type="button" value="Add" />
   <input type="button" value="Delete" />
   <select name="releaseb" size = "15" multiple>
 $for element in pronto_list:
 	<option value=element>
-  </select>  
+  </select>  -->
   <p>ResultFile: <input type="file" name="resultfile" /></p>
   <input type="submit" value="Generate" />
 </form>
