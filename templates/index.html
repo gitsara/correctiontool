@@ -1,40 +1,38 @@
-$def with (pronto_list)
+$def with (param)
 
 <html>
 <head>
-<title>correction</title>
+	<title>correction</title>
 </head>
 <body>
-<form>
-  <fieldset>
-    <legend>correction list tool</legend>
-  </fieldset>
-</form>
-<form name="form_index" enctype="multipart/form-data" action="" method="POST">
-  <p>COLFile: <input type="file" name="colfile" /></p>
-  <p>ProntList: <input type="file" name="prontlist" /></p>
-  <input type="submit" /><br>
-</form>
-  
-<form name="form_index2" action="result" method="POST">
-  <!--  input type="checkbox" name="checkbox1" value="checkbox"> ID 
-  <input type="checkbox" name="checkbox2" value="checkbox"> Title  
-  <input type="checkbox" name="checkbox3" value="checkbox"> State -->
-  <input type="checkbox" name="checkbox4" value="checkbox"> CN<br>
-  <select name="releasea" size = "15" multiple>
-$for element in pronto_list:
-	<option value=$element.id>$element.target</option>
-  </select>
-<!--  <input type="button" value="Add" />
-  <input type="button" value="Delete" />
-  <select name="releaseb" size = "15" multiple>
-$for element in pronto_list:
-	<option value=element>
-  </select>  -->
-  <p>ResultFile: <input type="file" name="resultfile" /></p>
-  <input type="submit" value="Generate" />
-</form>
 
+<br/>
+
+<form name="form_index" enctype="multipart/form-data" action="/" method="POST">
+	$if param.elements == None:
+		<center>
+			COLFile: <input type="file" name="colfile"/><br/>
+			ProntList: <input type="file" name="prontlist"/><br/>
+			<input type="submit" value="loading" name="loading" /><br>
+		</center>
+	$else:
+		<input type="hidden" name="colfiletxt" value="$param.colfile"/>
+		<input type="hidden" name="prontofiletxt" value="$param.prontofile"/>
+		<input type="checkbox" name="checkbox4" value="checkbox"> CN<br>
+		<select name="releasea" size = "20" multiple>
+			$for element in param.elements:
+				<option value=$element.id>$element.target</option>
+		</select>
+		<input type="submit" value="report" name="report" />
+		
+</form>
+	
+	$if param.results <> None:
+		<hr/>
+		$for line in param.results:
+			$line <br/>
+  
+  
 </body>
 </html>
 
